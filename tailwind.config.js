@@ -16,8 +16,8 @@ export default {
         line: "#3a2515",
       },
       fontFamily: {
-        display: ["Impact", "Arial Black", "sans-serif"],
-        serif: ["Georgia", "serif"],
+        display: ["Cinzel", "Impact", "Arial Black", "sans-serif"],
+        serif: ["'IM Fell English'", "Georgia", "serif"],
       },
     },
   },

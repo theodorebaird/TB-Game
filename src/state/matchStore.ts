@@ -12,6 +12,8 @@ import {
 } from "@engine/match";
 import { runAITurn } from "@engine/ai";
 import { reachableHexes, attackableHexes } from "@engine/pathfinding";
+import { animations } from "../lib/animations";
+import { sfx } from "../lib/sounds";
 
 interface MatchStore {
   match: MatchState | null;
@@ -87,8 +89,12 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
   moveSelected: (target) => {
     const { match, selectedUnitId } = get();
     if (!match || !selectedUnitId) return false;
+    const unit = match.units[selectedUnitId];
+    const fromHex = unit ? { ...unit.hex } : null;
     const ok = engineMove(match, selectedUnitId, target);
     if (ok) {
+      if (fromHex) animations.unitMove(selectedUnitId, fromHex, target);
+      sfx.move();
       set({ match: { ...match } });
       get().selectUnit(selectedUnitId);
     }
@@ -98,8 +104,33 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
   attackSelected: (target) => {
     const { match, selectedUnitId } = get();
     if (!match || !selectedUnitId) return false;
+    const targetTile = match.tiles[target.q][target.r];
+    const defenderId = targetTile?.unitId;
+    const defenderBefore = defenderId ? match.units[defenderId] : null;
+    const defenderHpBefore = defenderBefore?.hp ?? 0;
+    const attackerBefore = match.units[selectedUnitId];
+    const attackerHpBefore = attackerBefore?.hp ?? 0;
     const ok = engineAttack(match, selectedUnitId, target);
     if (ok) {
+      sfx.attack();
+      animations.doShake(6, 220);
+      // Damage to defender
+      const defenderAfter = defenderId ? match.units[defenderId] : null;
+      const dmgToDefender = defenderHpBefore - (defenderAfter?.hp ?? 0);
+      if (dmgToDefender > 0) {
+        animations.damage(target, dmgToDefender, "#ff7070");
+        if (defenderId) animations.flash(defenderId);
+      }
+      // Retaliation
+      const attackerAfter = match.units[selectedUnitId];
+      const retalDmg = attackerHpBefore - (attackerAfter?.hp ?? 0);
+      if (retalDmg > 0 && attackerAfter) {
+        animations.damage(attackerAfter.hex, retalDmg, "#ffb070");
+        animations.flash(selectedUnitId);
+      }
+      if (!defenderAfter && defenderBefore) {
+        sfx.death();
+      }
       set({ match: { ...match } });
       get().selectUnit(selectedUnitId);
     }
@@ -111,6 +142,7 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
     if (!match || !selectedUnitId) return false;
     const ok = engineFound(match, selectedUnitId);
     if (ok) {
+      sfx.cityFound();
       set({ match: { ...match }, selectedUnitId: null, highlightedMoves: [], highlightedAttacks: [] });
     }
     return ok;
@@ -132,22 +164,19 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
     return ok;
   },
 
-  research: (techKey) => {
-    const { match } = get();
-    if (!match) return false;
-    const cur = currentPlayer(match);
-    const ok = engineResearch(match, cur.id, techKey);
-    if (ok) set({ match: { ...match } });
-    return ok;
-  },
-
   endTurn: () => {
     const { match } = get();
     if (!match) return;
+    sfx.endTurn();
     engineEndTurn(match);
     let safety = 10;
     while (currentPlayer(match).isAI && !match.winner && safety-- > 0) {
       runAITurn(match, currentPlayer(match), "marauder");
+    }
+    if (match.winner) {
+      const human = match.players[0];
+      if (match.winner === human.id) sfx.win();
+      else sfx.lose();
     }
     set({
       match: { ...match },
@@ -155,5 +184,14 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
       highlightedMoves: [],
       highlightedAttacks: [],
     });
+  },
+
+  research: (techKey) => {
+    const { match } = get();
+    if (!match) return false;
+    const cur = currentPlayer(match);
+    const ok = engineResearch(match, cur.id, techKey);
+    if (ok) { sfx.research(); set({ match: { ...match } }); }
+    return ok;
   },
 }));

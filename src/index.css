@@ -7,12 +7,16 @@
   body {
     background: #1a0f08;
     color: #dbb98b;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: "IM Fell English", Georgia, serif;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
   }
   button { font-family: inherit; }
+  h1, h2, h3, .font-display {
+    font-family: "Cinzel", Impact, sans-serif;
+    letter-spacing: 0.08em;
+  }
 }
 
 @layer components {

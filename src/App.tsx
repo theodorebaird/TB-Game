@@ -10,6 +10,7 @@ import { UpdateBanner } from "@components/UpdateBanner";
 import { useMetaStore } from "@state/metaStore";
 import { useMatchStore } from "@state/matchStore";
 import { loadMatch } from "@state/persistence";
+import { initAudio } from "./lib/sounds";
 
 export default function App() {
   const loadMeta = useMetaStore((s) => s.load);
@@ -19,6 +20,18 @@ export default function App() {
     loadMeta();
     const saved = loadMatch();
     if (saved) setMatch(saved);
+    // Audio context needs a user gesture to start — register a one-shot listener.
+    const onFirstGesture = () => {
+      initAudio();
+      window.removeEventListener("pointerdown", onFirstGesture);
+      window.removeEventListener("keydown", onFirstGesture);
+    };
+    window.addEventListener("pointerdown", onFirstGesture, { once: true });
+    window.addEventListener("keydown", onFirstGesture, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", onFirstGesture);
+      window.removeEventListener("keydown", onFirstGesture);
+    };
   }, [loadMeta, setMatch]);
 
   return (

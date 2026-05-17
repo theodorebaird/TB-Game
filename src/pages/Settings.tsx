@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { checkForUpdate, applyUpdate } from "../lib/pwa";
 import { useMetaStore } from "@state/metaStore";
 import { clearMatch } from "@state/persistence";
+import { setSoundEnabled, isSoundEnabled, sfx } from "../lib/sounds";
 
-const APP_VERSION = "0.1.0";
+const APP_VERSION = "0.2.0";
 
 type Status = "idle" | "checking" | "current" | "updated" | "unavailable";
 
@@ -13,6 +14,7 @@ export function Settings() {
   const reset = useMetaStore((s) => s.reset);
   const [status, setStatus] = useState<Status>("idle");
   const [confirmErase, setConfirmErase] = useState(false);
+  const [sound, setSound] = useState(isSoundEnabled());
 
   async function handleCheck() {
     setStatus("checking");
@@ -35,6 +37,30 @@ export function Settings() {
     <div className="min-h-screen p-4 pb-20 overflow-y-auto">
       <button onClick={() => navigate("/")} className="text-ink text-sm mb-4">← Back</button>
       <h1 className="text-gold text-3xl font-black tracking-widest mb-6">SETTINGS</h1>
+
+      {/* SOUND */}
+      <section className="mb-8">
+        <h2 className="text-gold font-bold mb-2 tracking-widest">SOUND</h2>
+        <div className="border border-line rounded-lg p-4 flex items-center justify-between">
+          <div>
+            <div className="text-white text-sm">Sound effects</div>
+            <div className="text-ink/60 text-xs mt-1">Combat, movement, UI feedback.</div>
+          </div>
+          <button
+            onClick={() => {
+              const next = !sound;
+              setSound(next);
+              setSoundEnabled(next);
+              if (next) sfx.select();
+            }}
+            className={`w-16 h-8 rounded-full relative transition-colors ${sound ? "bg-gold" : "bg-line"}`}
+          >
+            <div
+              className={`absolute top-1 w-6 h-6 rounded-full bg-bg transition-transform ${sound ? "translate-x-9" : "translate-x-1"}`}
+            />
+          </button>
+        </div>
+      </section>
 
       {/* APP UPDATE */}
       <section className="mb-8">
