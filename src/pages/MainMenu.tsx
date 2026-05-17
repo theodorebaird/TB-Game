@@ -17,6 +17,7 @@ export function MainMenu() {
         <Link to="/new-game" className="btn btn-primary block">New Game</Link>
         <Link to="/tutorial" className="btn block">Tutorial</Link>
         <Link to="/bunker" className="btn block">The Bunker</Link>
+        <Link to="/settings" className="btn block">Settings</Link>
       </div>
 
       <div className="text-center text-ink/50 text-xs">

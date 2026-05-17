@@ -5,6 +5,7 @@ import { NewGame } from "@pages/NewGame";
 import { Match } from "@pages/Match";
 import { Bunker } from "@pages/Bunker";
 import { Tutorial } from "@pages/Tutorial";
+import { Settings } from "@pages/Settings";
 import { UpdateBanner } from "@components/UpdateBanner";
 import { useMetaStore } from "@state/metaStore";
 import { useMatchStore } from "@state/matchStore";
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/match" element={<Match />} />
         <Route path="/bunker" element={<Bunker />} />
         <Route path="/tutorial" element={<Tutorial />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
       <UpdateBanner />
     </>
