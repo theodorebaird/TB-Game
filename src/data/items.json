@@ -1,0 +1,25 @@
+{
+  "rustBlade":   { "slot": "weapon",    "tier": 1, "cost": 100,  "mods": { "atk": 1 }, "desc": "+1 atk." },
+  "ironMaul":    { "slot": "weapon",    "tier": 2, "cost": 250,  "mods": { "atk": 2 }, "desc": "+2 atk." },
+  "stormCleaver":{ "slot": "weapon",    "tier": 3, "cost": 600,  "mods": { "atk": 3 }, "passives": ["aoeOnKill"], "desc": "+3 atk, AoE on kill." },
+  "voidEdge":    { "slot": "weapon",    "tier": 4, "cost": 1200, "mods": { "atk": 4 }, "passives": ["ignoreDef"], "desc": "+4 atk, ignores 1 def." },
+  "kingmaker":   { "slot": "weapon",    "tier": 5, "cost": 2500, "mods": { "atk": 6 }, "passives": ["execLowHp"], "desc": "+6 atk, executes <20% HP." },
+
+  "ragArmor":    { "slot": "armor",     "tier": 1, "cost": 100,  "mods": { "def": 1 }, "desc": "+1 def." },
+  "glassCoat":   { "slot": "armor",     "tier": 2, "cost": 300,  "mods": { "def": 1 }, "passives": ["stormImmune"], "desc": "+1 def, immune to storms." },
+  "wardenPlate": { "slot": "armor",     "tier": 3, "cost": 700,  "mods": { "def": 2, "hp": 5 }, "desc": "+2 def, +5 HP." },
+  "ashWeave":    { "slot": "armor",     "tier": 4, "cost": 1300, "mods": { "def": 3 }, "passives": ["radResist"], "desc": "+3 def, radiation immune." },
+  "godSkin":     { "slot": "armor",     "tier": 5, "cost": 2700, "mods": { "def": 4, "hp": 10 }, "passives": ["regen1"], "desc": "+4 def, +10 HP, regen 1." },
+
+  "luckyToken":  { "slot": "relic",     "tier": 1, "cost": 100,  "passives": ["critOnce"], "desc": "Once/match: crit attack." },
+  "oldRadio":    { "slot": "relic",     "tier": 2, "cost": 300,  "passives": ["startVision5"], "desc": "Reveal 5 hexes near spawn." },
+  "theLastMap":  { "slot": "relic",     "tier": 3, "cost": 800,  "passives": ["startReveal30"], "desc": "Map 30% revealed at start." },
+  "broken Sigil":{ "slot": "relic",     "tier": 4, "cost": 1500, "passives": ["startTech1"], "desc": "Start with 1 free tech." },
+  "crownOfAsh":  { "slot": "relic",     "tier": 5, "cost": 3000, "passives": ["influence+5Turn"], "desc": "+5 Influence/turn." },
+
+  "ratPack":     { "slot": "companion", "tier": 1, "cost": 100,  "spawns": "ratSwarm", "desc": "Spawn rat scouts." },
+  "oldDog":      { "slot": "companion", "tier": 2, "cost": 400,  "spawns": "wolfPup", "desc": "Wolf companion, scout." },
+  "ironHound":   { "slot": "companion", "tier": 3, "cost": 900,  "spawns": "ironHound", "desc": "Mech dog, +3 atk." },
+  "warBear":     { "slot": "companion", "tier": 4, "cost": 1800, "spawns": "warBear", "desc": "Heavy bear, +5 atk +3 def." },
+  "ghostDrone":  { "slot": "companion", "tier": 5, "cost": 3500, "spawns": "ghostDrone", "passives": ["flyingScout"], "desc": "Invisible flying drone." }
+}

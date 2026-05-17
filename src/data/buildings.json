@@ -1,0 +1,16 @@
+{
+  "distillery":   { "tier": 1, "cost": { "scrap": 8 },              "effect": { "food": 2 },                                "buildTurns": 2 },
+  "workshop":     { "tier": 1, "cost": { "scrap": 12 },             "unlocks": ["junkerMech"],                              "buildTurns": 3 },
+  "relayTower":   { "tier": 2, "cost": { "scrap": 15, "power": 2 }, "effect": { "influenceRange": 2, "shareVision": true }, "buildTurns": 3, "factionPreferred": "choir" },
+  "bunker":       { "tier": 1, "cost": { "scrap": 10 },             "effect": { "cityDefensePct": 20 },                     "buildTurns": 2 },
+  "geyserTap":    { "tier": 1, "cost": { "scrap": 8 },              "effect": { "power": 3 }, "requiresFeature": "geyser",  "buildTurns": 2 },
+  "reactor":      { "tier": 3, "cost": { "scrap": 25 },             "effect": { "power": 5, "addsRadius2Rad": 1 },          "buildTurns": 4 },
+  "hydroponics":  { "tier": 2, "cost": { "scrap": 14, "food": 2 },  "effect": { "immuneToRadFoodLoss": true },              "buildTurns": 3 },
+  "wallSegment":  { "tier": 1, "cost": { "scrap": 4 },              "effect": { "edgeBlocker": true, "defPct": 10 },        "buildTurns": 1, "factionLock": ["hollow"], "builtBy": "engineer" },
+  "bloomSpire":   { "tier": 2, "cost": { "scrap": 12, "food": 3 },  "effect": { "bloomYield": 2, "bloomSpreadRadius": 2 },  "buildTurns": 3, "factionLock": ["reclaimers"] },
+  "junkPile":     { "tier": 1, "cost": { "scrap": 6 },              "effect": { "scrap": 2, "salvageOnDeathPct": 10 },      "buildTurns": 2, "factionPreferred": "scrappers" },
+  "caravansary":  { "tier": 2, "cost": { "scrap": 14 },             "effect": { "tradeInfluencePlus": 1, "campSpeedPlus": 1 }, "buildTurns": 3, "factionLock": ["drifters"] },
+  "researchHall": { "tier": 2, "cost": { "scrap": 16, "power": 1 }, "effect": { "tech": 3 },                                "buildTurns": 3 },
+  "marketplace":  { "tier": 2, "cost": { "scrap": 12 },             "effect": { "scrap": 2, "influence": 1 },               "buildTurns": 3 },
+  "watchtower":   { "tier": 1, "cost": { "scrap": 6 },              "effect": { "cityVisionRange": 2 },                     "buildTurns": 2 }
+}

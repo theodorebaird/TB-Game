@@ -1,0 +1,155 @@
+{
+  "warrior": {
+    "faction": "any",
+    "tier": 1,
+    "cost": { "scrap": 3 },
+    "hpMax": 10, "atk": 2, "def": 2, "range": 1, "movement": 2,
+    "tags": ["infantry"],
+    "abilities": []
+  },
+  "scout": {
+    "faction": "any",
+    "tier": 1,
+    "cost": { "scrap": 2 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 4,
+    "tags": ["infantry", "scout"],
+    "abilities": []
+  },
+  "archer": {
+    "faction": "any",
+    "tier": 1,
+    "cost": { "scrap": 4 },
+    "hpMax": 8, "atk": 2, "def": 1, "range": 2, "movement": 2,
+    "tags": ["infantry"],
+    "abilities": []
+  },
+  "wrenchGang": {
+    "faction": "scrappers",
+    "tier": 1,
+    "cost": { "scrap": 4 },
+    "hpMax": 10, "atk": 2, "def": 1, "range": 1, "movement": 2,
+    "tags": ["infantry"],
+    "abilities": ["bonusVsVehicle"]
+  },
+  "junkerMech": {
+    "faction": "scrappers",
+    "tier": 2,
+    "cost": { "scrap": 12 },
+    "hpMax": 22, "atk": 5, "def": 4, "range": 1, "movement": 2,
+    "tags": ["vehicle"],
+    "abilities": ["stomp"],
+    "requires": "workshop"
+  },
+  "picker": {
+    "faction": "scrappers",
+    "tier": 1,
+    "cost": { "scrap": 3 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 3,
+    "tags": ["worker"],
+    "abilities": ["foundCity", "disassemble"]
+  },
+  "sporeWeaver": {
+    "faction": "reclaimers",
+    "tier": 1,
+    "cost": { "scrap": 5, "food": 1 },
+    "hpMax": 8, "atk": 2, "def": 1, "range": 2, "movement": 2,
+    "tags": ["biological", "radResistant"],
+    "abilities": ["plantBloomNode"]
+  },
+  "broodMother": {
+    "faction": "reclaimers",
+    "tier": 2,
+    "cost": { "scrap": 12, "food": 3 },
+    "hpMax": 24, "atk": 4, "def": 4, "range": 1, "movement": 2,
+    "tags": ["biological", "radResistant"],
+    "abilities": ["spawnHuskOnDeath"]
+  },
+  "vinekin": {
+    "faction": "reclaimers",
+    "tier": 1,
+    "cost": { "scrap": 3, "food": 1 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 3,
+    "tags": ["worker", "biological"],
+    "abilities": ["foundCity", "spreadCreep"]
+  },
+  "whisperer": {
+    "faction": "choir",
+    "tier": 1,
+    "cost": { "scrap": 4 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 2,
+    "tags": ["caster"],
+    "abilities": ["apDrainAura"]
+  },
+  "choirVox": {
+    "faction": "choir",
+    "tier": 2,
+    "cost": { "scrap": 12, "power": 1 },
+    "hpMax": 12, "atk": 3, "def": 2, "range": 2, "movement": 2,
+    "tags": ["caster"],
+    "abilities": ["mindControl"]
+  },
+  "acolyte": {
+    "faction": "choir",
+    "tier": 1,
+    "cost": { "scrap": 3 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 2,
+    "tags": ["worker"],
+    "abilities": ["foundCity", "buildRelay"]
+  },
+  "linebreaker": {
+    "faction": "hollow",
+    "tier": 1,
+    "cost": { "scrap": 4, "power": 1 },
+    "hpMax": 12, "atk": 3, "def": 3, "range": 1, "movement": 2,
+    "tags": ["infantry"],
+    "abilities": ["formationBonus"]
+  },
+  "howitzer": {
+    "faction": "hollow",
+    "tier": 2,
+    "cost": { "scrap": 14, "power": 2 },
+    "hpMax": 14, "atk": 6, "def": 2, "range": 3, "movement": 1,
+    "tags": ["siege", "vehicle"],
+    "abilities": ["cantMoveAndShoot"]
+  },
+  "engineer": {
+    "faction": "hollow",
+    "tier": 1,
+    "cost": { "scrap": 3, "power": 1 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 2,
+    "tags": ["worker"],
+    "abilities": ["foundCity", "buildWall", "cleanseRadiation"]
+  },
+  "skirmishRider": {
+    "faction": "drifters",
+    "tier": 1,
+    "cost": { "scrap": 4 },
+    "hpMax": 8, "atk": 3, "def": 1, "range": 1, "movement": 4,
+    "tags": ["cavalry"],
+    "abilities": ["retreatOnKill"]
+  },
+  "sandbarge": {
+    "faction": "drifters",
+    "tier": 2,
+    "cost": { "scrap": 14 },
+    "hpMax": 18, "atk": 2, "def": 3, "range": 1, "movement": 3,
+    "tags": ["vehicle"],
+    "abilities": ["mobileProduction"]
+  },
+  "pathfinder": {
+    "faction": "drifters",
+    "tier": 1,
+    "cost": { "scrap": 3 },
+    "hpMax": 6, "atk": 1, "def": 1, "range": 1, "movement": 4,
+    "tags": ["worker", "scout"],
+    "abilities": ["foundCamp", "revealFog", "stormSight"]
+  },
+  "husk": {
+    "faction": "neutral",
+    "tier": 1,
+    "cost": {},
+    "hpMax": 8, "atk": 2, "def": 1, "range": 1, "movement": 1,
+    "tags": ["biological"],
+    "abilities": []
+  }
+}
