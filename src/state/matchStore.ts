@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { MatchState, Hex, Unit, Faction } from "@engine/types";
+import { MatchState, Hex, Faction } from "@engine/types";
 import {
   createMatch,
   currentPlayer,
@@ -31,6 +31,7 @@ interface MatchStore {
   research: (techKey: string) => boolean;
   endTurn: () => void;
   loadMatch: (m: MatchState) => void;
+  clearSelection: () => void;
 }
 
 export const useMatchStore = create<MatchStore>((set, get) => ({
@@ -52,6 +53,12 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
   },
 
   loadMatch: (m) => set({ match: m }),
+
+  clearSelection: () => set({
+    selectedUnitId: null,
+    highlightedMoves: [],
+    highlightedAttacks: [],
+  }),
 
   selectUnit: (unitId) => {
     const m = get().match;
@@ -104,12 +111,7 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
     if (!match || !selectedUnitId) return false;
     const ok = engineFound(match, selectedUnitId);
     if (ok) {
-      set({
-        match: { ...match },
-        selectedUnitId: null,
-        highlightedMoves: [],
-        highlightedAttacks: [],
-      });
+      set({ match: { ...match }, selectedUnitId: null, highlightedMoves: [], highlightedAttacks: [] });
     }
     return ok;
   },
@@ -143,7 +145,6 @@ export const useMatchStore = create<MatchStore>((set, get) => ({
     const { match } = get();
     if (!match) return;
     engineEndTurn(match);
-    // Run AI turns until human is next.
     let safety = 10;
     while (currentPlayer(match).isAI && !match.winner && safety-- > 0) {
       runAITurn(match, currentPlayer(match), "marauder");

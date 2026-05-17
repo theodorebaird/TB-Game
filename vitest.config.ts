@@ -6,7 +6,7 @@ export default defineConfig({
     alias: {
       "@engine": path.resolve(__dirname, "src/engine"),
       "@state": path.resolve(__dirname, "src/state"),
-      "@render": path.resolve(__dirname, "src/render"),
+      "@components": path.resolve(__dirname, "src/components"),
       "@data": path.resolve(__dirname, "src/data"),
       "@": path.resolve(__dirname, "src"),
     },

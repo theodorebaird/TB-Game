@@ -1,30 +1,17 @@
-import { MMKV } from "react-native-mmkv";
 import { MatchState } from "@engine/types";
-
-// MMKV may fail to init in pure-web/test contexts; fall back to in-memory map.
-let _storage: MMKV | { getString: (k: string) => string | undefined; set: (k: string, v: string) => void; delete: (k: string) => void };
-try {
-  _storage = new MMKV({ id: "tb-game" });
-} catch {
-  const mem = new Map<string, string>();
-  _storage = {
-    getString: (k) => mem.get(k),
-    set: (k, v) => { mem.set(k, v); },
-    delete: (k) => { mem.delete(k); },
-  };
-}
-export const storage = _storage;
 
 const MATCH_KEY = "tb-game-active-match-v1";
 
 export function saveMatch(m: MatchState): void {
-  storage.set(MATCH_KEY, JSON.stringify(m));
+  try {
+    localStorage.setItem(MATCH_KEY, JSON.stringify(m));
+  } catch {}
 }
 
 export function loadMatch(): MatchState | null {
-  const s = storage.getString(MATCH_KEY);
-  if (!s) return null;
   try {
+    const s = localStorage.getItem(MATCH_KEY);
+    if (!s) return null;
     return JSON.parse(s) as MatchState;
   } catch {
     return null;
@@ -32,5 +19,19 @@ export function loadMatch(): MatchState | null {
 }
 
 export function clearMatch(): void {
-  storage.delete(MATCH_KEY);
+  try {
+    localStorage.removeItem(MATCH_KEY);
+  } catch {}
 }
+
+export const storage = {
+  getString: (k: string): string | undefined => {
+    try { return localStorage.getItem(k) ?? undefined; } catch { return undefined; }
+  },
+  set: (k: string, v: string): void => {
+    try { localStorage.setItem(k, v); } catch {}
+  },
+  delete: (k: string): void => {
+    try { localStorage.removeItem(k); } catch {}
+  },
+};

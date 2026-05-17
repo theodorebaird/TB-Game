@@ -24,7 +24,7 @@ export const useMetaStore = create<MetaStore>((set, get) => ({
   hero: null,
   totalMatches: 0,
   totalWins: 0,
-  unlockedFactions: ["scrappers", "reclaimers"], // free baseline
+  unlockedFactions: ["scrappers", "reclaimers", "choir", "hollow", "drifters"],
 
   createHero: (archetype, name) => {
     set({ hero: newHero(archetype, name) });

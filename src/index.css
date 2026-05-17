@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    background: #1a0f08;
+    color: #dbb98b;
+    font-family: Georgia, "Times New Roman", serif;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  button { font-family: inherit; }
+}
+
+@layer components {
+  .btn {
+    @apply border border-line text-ink py-4 rounded-lg text-center font-semibold tracking-widest uppercase active:scale-95 transition-transform;
+  }
+  .btn-primary {
+    @apply bg-gold text-bg border-gold font-extrabold;
+  }
+  .chip {
+    @apply px-2 py-0.5 rounded text-xs font-bold border;
+  }
+  .modal-card {
+    @apply bg-bg border-t-2 border-gold p-4 max-h-[80vh] overflow-y-auto;
+  }
+}

@@ -1,162 +1,151 @@
 # TB Game — Tribes of the Endless Dust
 
-A post-apocalyptic, hex-based 4X mobile game inspired by Polytopia. Five asymmetric factions, a living wasteland that fights back, fragile diplomacy, and persistent hero warlords.
+A post-apocalyptic, hex-based 4X built as a Progressive Web App (PWA). Installs on iOS or Android via "Add to Home Screen" and runs like a real app. No app store, no Apple Developer account, no backend.
 
-Built with **React Native + Expo + Skia + TypeScript**.
+Same architecture as the manna Bible app: Vite + React + TypeScript + vite-plugin-pwa, deployed free on Vercel, auto-updates on every `git push`.
 
----
+## Local development
 
-## What's in here
-
-```
-/app                  Expo Router screens (index, new-game, match, bunker, tutorial)
-/src
-  /engine             Pure game logic (no React)
-    types.ts          Shared interfaces
-    hex.ts            Axial/cube hex math
-    map.ts            Map generation
-    combat.ts         Damage formula
-    environment.ts    Radiation, storms, Bloom
-    pathfinding.ts    Move/attack range calc
-    factions.ts       The five tribes
-    heroes.ts         Warlord archetypes + leveling
-    diplomacy.ts      Truce/peace/alliance/betrayal
-    cities.ts         City + building logic
-    tech.ts           Research tree
-    units.ts          Unit factory
-    match.ts          Match orchestrator (turn flow)
-    ai.ts             Utility AI
-    rng.ts            Seedable PRNG
-  /state              Zustand stores
-    matchStore.ts     Active match state + actions
-    metaStore.ts      Hero + cross-match progression
-    persistence.ts    MMKV save/load
-  /render             Skia-based rendering
-    MapView.tsx       Pannable/zoomable hex map
-    HudOverlay.tsx    Resources, AP, action bar
-    hexGeometry.ts    Pixel coords for hexes
-  /data               Static game data
-    units.json
-    buildings.json
-    tech.json
-    items.json
-/tests                Vitest tests (engine only)
-/assets               Logo, icons, splash
-/landing              Static marketing site for DigitalOcean
-```
-
----
-
-## Run it
-
-```bash
-# install
+```powershell
 npm install
-
-# run on iOS sim (Mac only)
-npm run ios
-
-# run on Android emulator
-npm run android
-
-# run in browser (fastest preview)
-npm run web
-
-# tests
-npm test
-
-# typecheck
-npm run typecheck
+npm run dev
 ```
 
-First-time setup: install [Expo Go](https://expo.dev/client) on your phone, run `npm start`, scan the QR code.
+Open `http://localhost:5173` in Chrome.
 
----
+To preview on a phone on the same WiFi, use the `Network:` URL the dev server prints. **Note:** PWA install ("Add to Home Screen") requires HTTPS, so the install option only appears on the deployed Vercel URL, not on the LAN dev URL.
 
-## How to play
+## Production build
 
-1. **Main menu → New Game** — pick a faction and number of AI opponents.
-2. **Tap a unit** to select it. White hexes = where you can move. Red hexes = enemies in attack range.
-3. **Tap End Turn** when you're done. AI players take their turns automatically.
-4. **Workers can found cities** (2 AP) on flats, ruin, or forest.
-5. **Cities produce units and buildings** — tap a city to open its panel.
-6. **Tech and Diplo** are on the bottom bar.
-7. **Visit The Bunker** between matches to level your Warlord and buy equipment.
+```powershell
+npm run build       # outputs dist/
+npm run preview     # serves dist/ locally for verification
+```
 
----
+## Regenerating app icons
 
-## Deploy the landing page to DigitalOcean (free static site)
+App icons are generated from `public/icon.svg`. After changing it:
 
-The `landing/` folder is a single-page static site. Push the repo to GitHub, then on DO App Platform select "Static Site" and point it at `landing/`. **DO App Platform's static-site tier is free.**
+```powershell
+npm run icons
+```
 
-### Step-by-step
+This re-renders all PNG sizes (192/512/maskable/apple-touch/favicon).
 
-1. **Create a GitHub repo and push.**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial: TB Game scaffold + landing page"
-   git branch -M main
-   gh repo create tb-game --private --source . --push
-   # or push manually if you don't have `gh` CLI
-   ```
+## Deploying to Vercel (free, HTTPS, auto-update)
 
-2. **Connect DO to GitHub.**
-   - Log into https://cloud.digitalocean.com/apps
-   - Click **Create App** → **GitHub** → authorize the DO GitHub app and select your `tb-game` repo
-   - Branch: `main`
+### 1. The GitHub repo already exists
 
-3. **Configure the source.**
-   - **Source directory:** `/landing`
-   - **Type:** DO will auto-detect "Static Site" because there's no build step needed (plain HTML)
-   - **HTTP routes:** `/` → `/`
-   - **Output directory:** leave blank (or `.`)
-   - **Build command:** leave blank
+`https://github.com/theodorebaird/TB-Game` — your code is already pushed there.
 
-4. **Pick the Starter plan.**
-   - It says **"Starter — Free"** ($0/month, 3 static sites included on the free tier)
-   - Region: pick whatever's closest to you
+### 2. Deploy on Vercel
 
-5. **Click Create Resources.** Build takes ~30 seconds. You'll get a `*.ondigitalocean.app` URL.
+1. Go to <https://vercel.com> and sign in **with GitHub**.
+2. Click **Add New… → Project**.
+3. Pick your `TB-Game` repo, click **Import**.
+4. Framework preset is auto-detected as **Vite**. Leave the defaults:
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+5. Click **Deploy**.
+6. Wait ~60 seconds. You'll get a URL like `https://tb-game.vercel.app/`.
 
-6. **(Optional) Custom domain.** App Platform → Settings → Domains. DO will give you DNS records to add at your registrar.
+### 3. Install on your phone
 
-**That's it.** Every push to `main` rebuilds the site automatically.
+1. Open the Vercel URL in **Chrome** (Android) or **Safari** (iOS).
+2. **iOS Safari:** tap the share icon → **Add to Home Screen** → Add.
+3. **Android Chrome:** tap the three-dot menu → **Install app** (or **Add to Home Screen**).
+4. A gold TB icon appears on your home screen. Tap it — opens full-screen, no browser chrome, looks like a real app.
+5. Works offline after the first load (service worker caches everything).
 
-### What if you'd rather use Vercel or Netlify
+### 4. Auto-updates — the "update feature" you asked for
 
-Both are also free for static sites. Same `landing/` folder. Vercel: `npx vercel` from inside `landing/`. Netlify: drag-and-drop the folder at app.netlify.com.
+Anytime you change the code:
 
----
+```powershell
+cd "C:\Users\theod\OneDrive\Desktop\Claude MASTER\Claude CODE\TB Game"
+git add .
+git commit -m "Update X"
+git push
+```
 
-## What's working in v0.1
+Vercel rebuilds and redeploys in ~30 seconds. On your phone, **next time you open the app**, an "Update Available" banner appears at the bottom. Tap **UPDATE** and the new version loads. That's it.
 
-- Full engine layer (hex math, map gen, combat, radiation drift, bloom, storms)
+## File map
+
+```
+src/
+├── main.tsx                  React + Router entry
+├── App.tsx                   routes + UpdateBanner mount
+├── index.css                 Tailwind + theme tokens
+├── vite-env.d.ts             vite + PWA type defs
+├── engine/                   PURE GAME LOGIC (no React)
+│   ├── types.ts              shared interfaces
+│   ├── hex.ts                hex math
+│   ├── map.ts                map generation
+│   ├── combat.ts             damage formula + retaliation
+│   ├── environment.ts        radiation, storms, bloom
+│   ├── pathfinding.ts        reach + attack range
+│   ├── factions.ts           the 5 tribes
+│   ├── heroes.ts             warlord archetypes + XP
+│   ├── diplomacy.ts          truce / peace / alliance / betrayal
+│   ├── cities.ts             city + building logic
+│   ├── tech.ts               48-node research tree
+│   ├── units.ts              unit factory
+│   ├── match.ts              turn orchestrator
+│   ├── ai.ts                 utility AI
+│   ├── rng.ts                seedable PRNG
+│   └── terrain.ts            terrain defs (color, move cost)
+├── data/                     static game data
+│   ├── units.json
+│   ├── buildings.json
+│   ├── tech.json
+│   └── items.json
+├── state/
+│   ├── matchStore.ts         Zustand: active match
+│   ├── metaStore.ts          Zustand: hero + meta progression
+│   └── persistence.ts        localStorage save/load
+├── components/
+│   ├── MapView.tsx           HTML Canvas hex map (pan / pinch / tap)
+│   ├── HudOverlay.tsx        resources, AP, action bar, context panel
+│   └── UpdateBanner.tsx      PWA new-version banner
+├── pages/
+│   ├── MainMenu.tsx
+│   ├── NewGame.tsx           faction picker
+│   ├── Match.tsx             game screen with tech / diplo / city modals
+│   ├── Bunker.tsx            hero forge + workbench
+│   └── Tutorial.tsx
+└── lib/
+    └── pwa.ts                service worker registration + update trigger
+
+public/
+├── favicon.svg               browser tab icon
+├── icon.svg                  source for all PNG icons
+├── logo.svg                  used by MainMenu
+├── icon-192.png              (generated by npm run icons)
+├── icon-512.png              (generated)
+├── icon-512-maskable.png     (generated)
+├── apple-touch-icon.png      (generated)
+└── favicon-32.png            (generated)
+
+scripts/
+└── icons.mjs                 sharp-based PNG generator
+
+tests/                        Vitest engine tests
+```
+
+## What works
+
 - 5 asymmetric factions with unique starting units/workers
-- 5 hero archetypes with leveling and equipment
+- 5 hero archetypes with leveling, equipment, persistent meta
 - Cities, buildings, production queues
-- 48-node tech tree (18 shared + 6 faction-unique each)
-- Diplomacy (truce/peace/alliance/betrayal) with trust scores
+- 48-node tech tree (18 shared + 6 per faction)
+- Diplomacy with trust scores + betrayal
 - Utility AI with faction-flavor weights
-- Skia-rendered pannable/zoomable hex map
-- Hero meta-progression in The Bunker
-- Local save/load via MMKV
-- Vitest unit tests for hex math, combat, and AI smoke
-
-## Known gaps (next up)
-
-- City pop growth and tile-yield per-tile is approximate (uses city-level totals); full per-tile worked-yield is stubbed
-- Tutorial is text-only (no interactive scenarios per §12.4)
-- Sounds/music not wired
-- Async multiplayer not built (out of scope for solo build)
-- Cosmetic shop not built (you said free use only)
-
----
+- Pannable / zoomable HTML Canvas hex map
+- Radiation drift, storms, bloom spread
+- Local save/load via localStorage
+- PWA: installable, offline, auto-update banner
 
 ## Design source
 
-The full game design lives in [ASHFALL_design_doc.md](./ASHFALL_design_doc.md). This codebase implements §17 Phase 1 (MVP) and most of Phase 2 (vertical slice). The build order follows §20 with a few merged steps because the engine has been built end-to-end before UI rather than step-by-step.
-
-## License
-
-Personal project. Use the code freely. Logo is yours.
+Full game design in [ASHFALL_design_doc.md](./ASHFALL_design_doc.md). This implements Phase 1 (MVP) and most of Phase 2 (vertical slice) from §17 of that doc.
